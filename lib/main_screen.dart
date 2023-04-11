@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_hookah_app/custom_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
@@ -130,43 +131,13 @@ class _MainScreenState extends State<MainScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    SizedBox(
-                      width: 150,
-                      child: ElevatedButton.icon(
-                        style: ButtonStyle(
-                          backgroundColor: const MaterialStatePropertyAll<Color>(Colors.white10),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          ),
-                        ),
-                        icon: const Icon(Icons.place),
-                        onPressed: () {},
-                        label: const Text(
-                          'Карта',
-                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w300),
-                        ),
-                      ),
+                    const CustomButton(
+                      text: 'Карта',
+                      icon: Icons.cabin,
                     ),
-                    SizedBox(
-                      width: 150,
-                      child: ElevatedButton.icon(
-                        style: ButtonStyle(
-                          backgroundColor: const MaterialStatePropertyAll<Color>(Colors.white10),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          ),
-                        ),
-                        icon: const Icon(Icons.filter_alt_rounded),
-                        onPressed: () {},
-                        label: const Text(
-                          'Фильтры',
-                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w300),
-                        ),
-                      ),
+                    const CustomButton(
+                      text: 'Карта',
+                      icon: Icons.cabin,
                     ),
                   ],
                 ),
