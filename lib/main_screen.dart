@@ -171,16 +171,20 @@ class _MainScreenState extends State<MainScreen> {
                   ],
                 ),
                 const SizedBox(height: 25),
-                Container(
-                  height: 300,
-                  width: double.infinity,
-                  color: Colors.amber,
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  height: 300,
-                  width: double.infinity,
-                  color: Colors.amber,
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: 10,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      width: 300,
+                      height: 300,
+                      color: Colors.green,
+                      child: Text('$index'),
+                    ),
+                  ),
+                  
                 ),
               ],
             ),
