@@ -5,9 +5,9 @@ class CustomButton extends StatelessWidget {
   final IconData icon;
 
   const CustomButton({
+    super.key, 
     required this.text,
     required this.icon,
-    super.key,
   });
 
   @override
@@ -28,7 +28,7 @@ class CustomButton extends StatelessWidget {
         onPressed: () {},
         label: Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w300),
         ),
       ),
