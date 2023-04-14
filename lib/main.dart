@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'Geolocator/get_current_location_user.dart';
 import 'main_screen.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

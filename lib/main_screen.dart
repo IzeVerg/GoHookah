@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:go_hookah_app/mini-moments/button.dart';
+import 'package:flutter/cupertino.dart';
+
+import 'notification/notif_about_location.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -10,177 +12,195 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
+  Color? textColor1 = Colors.black;
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
+  Color? textColor2 = Colors.white;
 
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    return await Geolocator.getCurrentPosition();
-  }
 
   final TextEditingController _searchController = TextEditingController();
 
-  final keyIsFirstLoaded = 'is_first_loaded';
+  int? groupValue = 0;
+
+  double maxHeaderHeight = 108;
+
+  late ScrollController _scrollController;
+  final ValueNotifier<double> opacity = ValueNotifier(0);
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController = ScrollController();
+    _scrollController.addListener(scrollListener);
+  }
+
+  scrollListener() {
+    if (maxHeaderHeight > _scrollController.offset && _scrollController.offset > 1) {
+      opacity.value = 1 - _scrollController.offset / maxHeaderHeight;
+    } else if (_scrollController.offset > maxHeaderHeight && opacity.value != 1) {
+      opacity.value = 0;
+    } else if (_scrollController.offset < 0 && opacity.value != 0) {
+      opacity.value = 1;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // CustomScrollView(
-    //   slivers: <Widget>[
-    // const SliverAppBar(
-    // pinned: true,
-    //   expandedHeight: 250.0,
-    //   flexibleSpace: FlexibleSpaceBar(
-    //     title: Text('Каталог'),
-    //   ),
-    // ),
     Future.delayed(Duration.zero, () => showDialogIfFirstLoaded(context));
     return Scaffold(
-      backgroundColor: Colors.white12,
-      appBar: AppBar(
-        title: const Text('Каталог', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 25)),
-        backgroundColor: Colors.white10,
-      ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white10,
-                    hintText: 'Поиск',
-                    hintStyle: const TextStyle(color: Colors.grey),
-                    suffixIcon: IconButton(
-                      color: Colors.grey,
-                      icon: const Icon(Icons.clear),
-                      onPressed: () => _searchController.clear(),
-                    ),
-                    prefixIcon: IconButton(
-                      color: Colors.grey,
-                      icon: const Icon(Icons.search),
-                      onPressed: () {},
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
+      backgroundColor: const Color(0xff2B2B2B),
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverAppBar(
+            centerTitle: true,
+            backgroundColor: const Color(0xff2B2B2B),
+            title: ValueListenableBuilder<double>(
+                valueListenable: opacity,
+                builder: (context, value, child) {
+                  return AnimatedOpacity(
+                    duration: const Duration(milliseconds: 1),
+                    opacity: 1.0 - value,
+                    child: const Text("Каталог", style: TextStyle(color: Colors.white, fontSize: 17)),
+                  );
+                }),
+            pinned: true,
+            expandedHeight: maxHeaderHeight,
+            flexibleSpace: FlexibleSpaceBar(
+              background: SafeArea(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                          children: const [
+                            SizedBox(
+                              width: 30,
+                            ),
+                            Text("Каталог", style: TextStyle(color: Colors.white, fontSize: 34, fontWeight:
+                            FontWeight.w600)),
+                          ],
+                        ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              ),
+              collapseMode: CollapseMode.parallax,
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Column(
                   children: [
-                    SizedBox(
-                      width: 175,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: const MaterialStatePropertyAll<Color>(Colors.white10),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                          ),
+                    const SizedBox(
+                      height: 9,
+                    ),
+                    Container(
+                      height: 40,
+                      width: 343,
+                      child: TextField(
+                        cursorHeight: 45,
+                        style: const TextStyle(
+                          height: 2.8,
+                          color: Colors.white,
                         ),
-                        onPressed: () {},
-                        child: const Text(
-                          'Кальянные',
-                          style: TextStyle(color: Colors.white),
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(13),
+                          ),
+                          filled: true,
+                          fillColor: const Color(0xff333333),
+                          hintText: 'Поиск',
+                          hintStyle: const TextStyle(
+                            color: Color(0xFF767676),
+                            fontSize: 17,
+                          ),
+                          suffixIcon: IconButton(
+                            iconSize: 18,
+                            color: const Color(0xFF767676),
+                            icon: const Icon(Icons.clear),
+                            onPressed: () => _searchController.clear(),
+                          ),
+                          prefixIcon: IconButton(
+                            padding: const EdgeInsetsDirectional.only(start: 0.0, end: 0.0),
+                            iconSize: 25,
+                            color: Color(0xFF767676),
+                            icon: const Icon(Icons.search),
+                            onPressed: () {},
+                          ),
                         ),
                       ),
                     ),
+                    const SizedBox(height: 15),
                     SizedBox(
-                      width: 175,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: const MaterialStatePropertyAll<Color>(Colors.white10),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5.0),
+                      width: 343,
+                      child: CupertinoSlidingSegmentedControl<int>(
+                        backgroundColor: const Color(0xFF333333),
+                        groupValue: groupValue,
+                        thumbColor: CupertinoColors.extraLightBackgroundGray,
+                        children: {
+                          0: Text(
+                            "Кальянные",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13,
+                              color: textColor1,
                             ),
                           ),
+                          1: Text(
+                            "Магазины",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13,
+                              color: textColor2,
+                            ),
+                          ),
+                        },
+                        onValueChanged: (value) {
+                          setState(() {
+                            groupValue = value;
+                            textColor1 = groupValue == 0 ? Colors.black : Colors.white;
+                            textColor2 = groupValue == 1 ? Colors.black : Colors.white;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: const [
+                        CustomButton(
+                          text: "Карта",
+                          icon: CupertinoIcons.compass,
                         ),
-                        onPressed: () {},
-                        child: const Text(
-                          'Магазины',
-                          style: TextStyle(color: Colors.white),
+                        CustomButton(
+                          text: "Фильтры",
+                          icon: Icons.filter_list,
+                        ),
+                      ],
+                    ),
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 10,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Container(
+                          width: 300,
+                          height: 300,
+                          color: Colors.green,
+                          child: Text('$index'),
                         ),
                       ),
                     ),
                   ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      width: 150,
-                      child: ElevatedButton.icon(
-                        style: ButtonStyle(
-                          backgroundColor: const MaterialStatePropertyAll<Color>(Colors.white10),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          ),
-                        ),
-                        icon: const Icon(Icons.place),
-                        onPressed: () {},
-                        label: const Text(
-                          'Карта',
-                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w300),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 150,
-                      child: ElevatedButton.icon(
-                        style: ButtonStyle(
-                          backgroundColor: const MaterialStatePropertyAll<Color>(Colors.white10),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          ),
-                        ),
-                        icon: const Icon(Icons.filter_alt_rounded),
-                        onPressed: () {},
-                        label: const Text(
-                          'Фильтры',
-                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w300),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 25),
-                Container(
-                  height: 300,
-                  width: double.infinity,
-                  color: Colors.amber,
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  height: 300,
-                  width: double.infinity,
-                  color: Colors.amber,
                 ),
               ],
             ),
@@ -190,79 +210,14 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  showDialogIfFirstLoaded(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? isFirstLoaded = prefs.getBool(keyIsFirstLoaded);
-    if (isFirstLoaded != null) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          // return object of type Dialog
-          return AlertDialog(
-            alignment: Alignment.bottomCenter,
-            backgroundColor: Colors.black,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            title: const Text("Ваш город Минск?", style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                fontSize: 20
-            )),
-            content: const Text("Вы всегда сможете изменить Ваш город в настройках профиля.", style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w300,
-                fontSize: 15
-            )),
-            actions: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll<Color>(Colors.amber),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                  ),
-                ),
-                child: const Text("Подтвердить", style: TextStyle(
-                  color: Colors.black,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 18
-                )),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  prefs.setBool(keyIsFirstLoaded, false);
-                },
-              ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                  ),
-                ),
-                child: const Text("Изменить", style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 18
-                )),
-                onPressed: () {
-                  // Close the dialog
-                  Navigator.of(context).pop();
-                  prefs.setBool(keyIsFirstLoaded, false);
-                },
-              ),
-          ],
-              ),
-            ],
-          );
-        },
-      );
-    }
+
+  Widget buildSegment(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 13,
+      ),
+    );
   }
 }
