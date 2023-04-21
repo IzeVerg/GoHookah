@@ -35,3 +35,12 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
+class CardQuery {
+  static const String baseUrl = "https://gohookah.ilavista.tech/api/places";
+  //здесь создавать статические константы для фильтров через слэш
+
+}
+
+
+
