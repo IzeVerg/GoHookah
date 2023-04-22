@@ -1,10 +1,8 @@
-
-
 class MainCardModel {
 
-final List<CardModel>? data;
+final List<CardModel>? results;
 
-MainCardModel({this.data});
+MainCardModel({this.results});
 
 }
 
@@ -12,19 +10,19 @@ MainCardModel({this.data});
 
 class CardModel{
   const CardModel({
-    required this.id,
-    required this.title,
+    this.id,
+    this.title,
     this.image,
-    required this.address,
+    this.address,
     this.phone,
     this.description,
-    required this.rate,
+    this.rate,
 });
-  final int id;
-  final String title;
-  final String address;
+  final int? id;
+  final String? title;
+  final String? address;
   final String? phone;
   final String? description;
   final String? image;
-  final double rate;
+  final double? rate;
 }

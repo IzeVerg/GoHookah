@@ -23,8 +23,8 @@ class CardRepository {
       );
       //парсим ДТО
       final dtos = <CardModelDTO>[];
-      final responseMap = response.data as Map<dynamic, dynamic>;
-      for (final data in responseMap.keys) {
+      final responseList = response.data as List<dynamic>;
+      for (final data in responseList) {
         dtos.add(CardModelDTO.fromJson(data as Map<String, dynamic>));
       }
 
@@ -35,7 +35,7 @@ class CardRepository {
       }
 
       //Собираем модели карточек фильмов и возвращаем единую модель
-      final MainCardModel model = MainCardModel(data: cardsModel);
+      final MainCardModel model = MainCardModel(results: cardsModel);
       return model;
 
     } on DioError catch(error) {

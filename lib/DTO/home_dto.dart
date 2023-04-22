@@ -8,9 +8,9 @@ part 'home_dto.g.dart';
 @JsonSerializable()
 class HomeDTO {
   @JsonKey(name : "data")
-  final List<CardModelDTO>? data;
+  final List<CardModelDTO>? results;
 
-  HomeDTO({this.data});
+  HomeDTO({this.results});
 
   factory HomeDTO.fromJson(Map<String, dynamic> json) =>
       _$HomeDTOFromJson(json);

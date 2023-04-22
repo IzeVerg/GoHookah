@@ -7,11 +7,11 @@ part of 'home_dto.dart';
 // **************************************************************************
 
 HomeDTO _$HomeDTOFromJson(Map<String, dynamic> json) => HomeDTO(
-      data: (json['data'] as List<dynamic>?)
+      results: (json['data'] as List<dynamic>?)
           ?.map((e) => CardModelDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$HomeDTOToJson(HomeDTO instance) => <String, dynamic>{
-      'data': instance.data,
+      'data': instance.results,
     };

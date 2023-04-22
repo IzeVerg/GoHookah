@@ -9,8 +9,8 @@ part of 'card_model_dto.dart';
 CardModelDTO _$CardModelDTOFromJson(Map<String, dynamic> json) => CardModelDTO(
       id: json['id'] as int? ?? 0,
       title: json['title'] as String? ?? '',
-      address: json['address'] as String,
-      rate: (json['rate'] as num).toDouble(),
+      address: json['address'] as String?,
+      rate: (json['rate'] as num?)?.toDouble(),
       image: json['img'] as String?,
       phone: json['phone'] as String?,
       description: json['description'] as String?,

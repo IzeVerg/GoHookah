@@ -5,10 +5,10 @@ part 'card_model_dto.g.dart';
 @JsonSerializable()
 class CardModelDTO {
   CardModelDTO({
-    required this.id,
-    required this.title,
-    required this.address,
-    required this.rate,
+    this.id,
+    this.title,
+    this.address,
+    this.rate,
     this.image,
     this.phone,
     this.description,
@@ -18,16 +18,16 @@ class CardModelDTO {
    _$CardModelDTOFromJson(json);
 
    @JsonKey(name: "id", defaultValue: 0)
-   final int id;
+   final int? id;
 
    @JsonKey(name: "title", defaultValue: "")
-   final String title;
+   final String? title;
 
    @JsonKey(name: "img")
    final String? image;
 
    @JsonKey(name: "address")
-   final String address;
+   final String? address;
 
    @JsonKey(name: "phone")
    final String? phone;
@@ -36,5 +36,5 @@ class CardModelDTO {
    final String? description;
 
    @JsonKey(name: "rate")
-   final double rate;
+   final double? rate;
 }

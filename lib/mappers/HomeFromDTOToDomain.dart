@@ -5,7 +5,7 @@ import '../models/modal.dart';
 extension HomefromDTOToDomain on HomeDTO {
   MainCardModel toDomain() {
     return MainCardModel(
-      data: data?.map((CardModelDTO e) =>  e.toDomain()).toList(),
+      results: results?.map((CardModelDTO e) =>  e.toDomain()).toList(),
     );
   }
 }
