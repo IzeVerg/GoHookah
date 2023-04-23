@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:go_hookah_app/DTO/home_dto.dart';
 import 'package:go_hookah_app/mappers/HomeFromDTOToDomain.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -22,7 +23,7 @@ class CardRepository {
         url
       );
       //парсим ДТО
-      final dtos = <CardModelDTO>[];
+      final dtos = <CardModel>[];
       final responseList = response.data as List<dynamic>;
       for (final data in responseList) {
         dtos.add(CardModelDTO.fromJson(data as Map<String, dynamic>));

@@ -17,10 +17,10 @@ class CardModelDTO {
    factory CardModelDTO.fromJson(Map<String, dynamic> json) =>
    _$CardModelDTOFromJson(json);
 
-   @JsonKey(name: "id", defaultValue: 0)
+   @JsonKey(name: "id")
    final int? id;
 
-   @JsonKey(name: "title", defaultValue: "")
+   @JsonKey(name: "title")
    final String? title;
 
    @JsonKey(name: "img")

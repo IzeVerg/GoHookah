@@ -9,7 +9,7 @@ MainCardModel({this.results});
 
 
 class CardModel{
-  const CardModel({
+   CardModel({
     this.id,
     this.title,
     this.image,
