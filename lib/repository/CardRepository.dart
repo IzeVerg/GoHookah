@@ -19,28 +19,27 @@ class CardRepository {
     try {
       //Выполняем запрос
       const String url = CardQuery.baseUrl;
-      final Response<dynamic> response = await _dio.get<Map<dynamic, dynamic>>(
-        url
-      );
+      final Response<dynamic> response =
+      await _dio.get<Map<dynamic, dynamic>>(url);
+
       //парсим ДТО
-      final dtos = <CardModel>[];
-      final responseList = response.data as List<dynamic>;
-      for (final data in responseList) {
-        dtos.add(CardModelDTO.fromJson(data as Map<String, dynamic>));
-      }
+      final responseMap = response.data as Map<String, dynamic>;
+      final List<CardModelDTO> responseList = List<CardModelDTO>.from(
+        (responseMap["data"] as List? ?? []).map(
+              (card) => CardModelDTO.fromJson(card),
+        ),
+      ).whereType<CardModelDTO>().toList();
 
       //Конвертируем ДТО в модели
       final cardsModel = <CardModel>[];
-      for(final dto in dtos) {
+      for (final dto in responseList) {
         cardsModel.add(dto.toDomain());
       }
 
       //Собираем модели карточек фильмов и возвращаем единую модель
       final MainCardModel model = MainCardModel(results: cardsModel);
       return model;
-
-    } on DioError catch(error) {
-
+    } on DioError catch (error) {
       final statusCode = error.response?.statusCode;
       showErrorDialog(context, error: statusCode?.toString() ?? '');
       return null;

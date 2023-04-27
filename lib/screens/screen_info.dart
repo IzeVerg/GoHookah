@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_hookah_app/screens/hookah_card.dart';
 
 import '../models/modal.dart';
 import '../repository/CardRepository.dart';
@@ -18,23 +19,27 @@ class _ScreenInfoState extends State<ScreenInfo> {
   @override
   Widget build(BuildContext context) {
     dataLoadingState ??= CardRepository.loadData(context);
-    return FutureBuilder(
+    return FutureBuilder<MainCardModel?>(
       future: dataLoadingState,
       builder: (BuildContext context, AsyncSnapshot<MainCardModel?> data) {
         return data.connectionState != ConnectionState.done
             ? const Center(child: CircularProgressIndicator())
             : data.hasData
-            ?ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
+        ?data.data?.results?.isNotEmpty == true
+        ? ListView.builder(
+          shrinkWrap: true,
+          physics: const ClampingScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
               return HookahCard(
-                  MainCardModel : data.data?.data?[index],
-                key: ValueKey<int>(data.data?.data?[index].id ?? -1),
+                  cardModel: data.data?.results?[index],
+                key: ValueKey<int>(data.data?.results?[index].id ?? -1),
               );
             },
-          itemCount: data.data?.data?.length ?? 0,
+          itemCount: data.data?.results?.length ?? 0,
         )
-            : const Center(child: CircularProgressIndicator());
-    },
+            : const Center(child: CircularProgressIndicator())
+        : const Center(child: Text('Произошла ошибка'));
+            },
     );
   }
 }

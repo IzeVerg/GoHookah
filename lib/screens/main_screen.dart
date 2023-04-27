@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_hookah_app/mini-moments/button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_hookah_app/repository/CardRepository.dart';
+import 'package:go_hookah_app/screens/screen_info.dart';
 import '../models/modal.dart';
 import '../notification/notif_about_location.dart';
 
@@ -13,17 +14,15 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
   Color? textColor1 = Colors.black;
 
   Color? textColor2 = Colors.white;
-
 
   final TextEditingController _searchController = TextEditingController();
 
   int? groupValue = 0;
 
-  double maxHeaderHeight = 110;
+  double maxHeaderHeight = 107;
 
   late ScrollController _scrollController;
 
@@ -55,8 +54,8 @@ class _MainScreenState extends State<MainScreen> {
     Future.delayed(Duration.zero, () => showDialogIfFirstLoaded(context));
     return Scaffold(
       backgroundColor: const Color(0xff2B2B2B),
-      body:
-      CustomScrollView(
+      body: CustomScrollView(
+        physics:  const ClampingScrollPhysics(),
         controller: _scrollController,
         slivers: [
           SliverAppBar(
@@ -67,165 +66,153 @@ class _MainScreenState extends State<MainScreen> {
                 builder: (context, value, child) {
                   return AnimatedOpacity(
                     duration: const Duration(milliseconds: 1),
-                    opacity: 1.0 - value,
-                    child: const Text("Каталог", style: TextStyle(color: Colors.white, fontSize: 17)),
+                    opacity: _scrollController.offset == 0.0 ? 0 : 1 - value ,
+                    child:  const Text("Каталог", style: TextStyle(color: Colors.white, fontSize:
+                    17)),
                   );
                 }),
             pinned: true,
             expandedHeight: maxHeaderHeight,
             flexibleSpace: FlexibleSpaceBar(
               background: SafeArea(
-                child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: const [
                           SizedBox(
-                            width: 16,
+                            width: 32,
                           ),
-                          Text("Каталог", style: TextStyle(color: Colors.white, fontSize: 34, fontWeight:
-                          FontWeight.w600)),
+                          Text("Каталог",
+                              style: TextStyle(color: Colors.white, fontSize: 34, fontWeight: FontWeight.w600)),
                         ],
                       ),
                     ],
                   ),
-                ),
               ),
               collapseMode: CollapseMode.parallax,
             ),
           ),
+          MediaQuery.removePadding(removeTop: true,
+              context: context,
+              child:
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child:
-                  Column(
-                    children: [
-                      const SizedBox(
-                        height: 9,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 6, 0, 15),
-                        child: SizedBox(
-                          height: 40,
-                          child: TextField(
-                            style: const TextStyle(
-                              height: 24 / 17,
-                              color: Colors.white,
-                            ),
-                            controller: _searchController,
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(0),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(13),
+                ListView(
+                  physics: const ClampingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 15, 16, 15),
+                          child: SizedBox(
+                            height: 40,
+                            child: TextField(
+                              style: const TextStyle(
+                                height: 24 / 17,
+                                color: Colors.white,
                               ),
-                              filled: true,
-                              fillColor: const Color(0xff333333),
-                              hintText: 'Поиск',
-                              hintStyle: const TextStyle(
-                                color: Color(0xFF767676),
-                                fontSize: 17,
-                              ),
-                              suffixIcon: IconButton(
-                                iconSize: 18,
-                                color: const Color(0xFF767676),
-                                icon: const Icon(Icons.clear),
-                                onPressed: () => _searchController.clear(),
-                              ),
-                              prefixIcon: IconButton(
-                                padding: const EdgeInsetsDirectional.only(start: 0.0, end: 0.0),
-                                iconSize: 25,
-                                color: const Color(0xFF767676),
-                                icon: const Icon(Icons.search),
-                                onPressed: () {},
+                              controller: _searchController,
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.all(0),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(13),
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xff333333),
+                                hintText: 'Поиск',
+                                hintStyle: const TextStyle(
+                                  color: Color(0xFF767676),
+                                  fontSize: 17,
+                                ),
+                                suffixIcon: IconButton(
+                                  iconSize: 18,
+                                  color: const Color(0xFF767676),
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () => _searchController.clear(),
+                                ),
+                                prefixIcon: IconButton(
+                                  padding: const EdgeInsetsDirectional.only(start: 0.0, end: 0.0),
+                                  iconSize: 25,
+                                  color: const Color(0xFF767676),
+                                  icon: const Icon(Icons.search),
+                                  onPressed: () {},
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      CupertinoSlidingSegmentedControl<int>(
-                        backgroundColor: const Color(0xFF333333),
-                        groupValue: groupValue,
-                        thumbColor: CupertinoColors.extraLightBackgroundGray,
-                        children: {
-                          0: SizedBox(
-                            width: 250,
-                            child: Text(
-                              "Кальянные",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13,
-                                color: textColor1,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: CupertinoSlidingSegmentedControl<int>(
+                            backgroundColor: const Color(0xFF333333),
+                            groupValue: groupValue,
+                            thumbColor: CupertinoColors.extraLightBackgroundGray,
+                            children: {
+                              0: SizedBox(
+                                width: 250,
+                                child: Text(
+                                  "Кальянные",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13,
+                                    color: textColor1,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          1: SizedBox(
-                            width: 250,
-                            child: Text(
-                              "Магазины",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13,
-                                color: textColor2,
+                              1: SizedBox(
+                                width: 250,
+                                child: Text(
+                                  "Магазины",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13,
+                                    color: textColor2,
+                                  ),
+                                ),
                               ),
-                            ),
+                            },
+                            onValueChanged: (value) {
+                              setState(() {
+                                groupValue = value;
+                                textColor1 = groupValue == 0 ? Colors.black : Colors.white;
+                                textColor2 = groupValue == 1 ? Colors.black : Colors.white;
+                              });
+                            },
                           ),
-                        },
-                        onValueChanged: (value) {
-                          setState(() {
-                            groupValue = value;
-                            textColor1 = groupValue == 0 ? Colors.black : Colors.white;
-                            textColor2 = groupValue == 1 ? Colors.black : Colors.white;
-                          });
-                        },
-                      ),
-                      const SizedBox(
-                        height: 18,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          CustomButton(
-                            text: "Карта",
-                            icon: CupertinoIcons.compass,
-                          ),
-                          CustomButton(
-                            text: "Фильтры",
-                            icon: Icons.filter_list,
-                          ),
-                        ],
-                      ),
-                      ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 10,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) =>
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Container(
-                                width: double.infinity,
-                                height: 300,
-                                color: Colors.green,
-                                child: Text('$index'),
+                        ),
+                        const SizedBox(
+                          height: 18,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              CustomButton(
+                                text: "Карта",
+                                icon: CupertinoIcons.compass,
                               ),
-                            ),
-                      ),
-                    ],
-                  ),
+                              CustomButton(
+                                text: "Фильтры",
+                                icon: Icons.filter_list,
+                              ),
+                            ],
+                          ),
+                        ),
+                    const ScreenInfo(),
+                  ],
                 ),
               ],
             ),
           ),
-
+          ),
         ],
       ),
     );
   }
 }
-

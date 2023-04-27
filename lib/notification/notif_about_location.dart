@@ -6,15 +6,15 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 const keyIsFirstLoaded = 'is_first_loaded';
 
-List<String> City = ["Минск", "Могилев", "Гомель", "Брест", "Гродно", "Витебск", "Барановичи", "Бобруйск"];
+List<String> city = ["Минск", "Могилев", "Гомель", "Брест", "Гродно", "Витебск", "Барановичи", "Бобруйск"];
 
-List<String> Country = ["Беларусь", "Германия", "Грузия", "Испания", "Литва", "Польша", "Россия", "Украина"];
+List<String> country = ["Беларусь", "Германия", "Грузия", "Испания", "Литва", "Польша", "Россия", "Украина"];
 
 String town = "";
 
-Color? textColor3 = Color(0xFFF6F7FB);
+Color? textColor3 = const Color(0xFFF6F7FB);
 
-Color? textColor4 = Color(0xFFFFC107);
+Color? textColor4 = const Color(0xFFFFC107);
 
 Future<Position> _determinePosition() async {
   bool serviceEnabled;
@@ -253,10 +253,10 @@ class _ShowModalState extends State<ShowModal> {
                                     ),
                                     ListView.separated(
                                       physics: const NeverScrollableScrollPhysics(),
-                                      itemCount: Country.length,
+                                      itemCount: country.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, index) => ListTile(
-                                        title: Text(Country[index], style: TextStyle(color: textColor3, fontSize: 17)),
+                                        title: Text(country[index], style: TextStyle(color: textColor3, fontSize: 17)),
                                         onTap: () {
                                           setState(() {});
                                         },
@@ -329,12 +329,12 @@ class _ShowModalState extends State<ShowModal> {
             ),
             ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: City.length,
+              itemCount: city.length,
               shrinkWrap: true,
               itemBuilder: (context, index) => ListTile(
-                title: Text(City[index], style: TextStyle(color: textColor3, fontSize: 17)),
+                title: Text(city[index], style: TextStyle(color: textColor3, fontSize: 17)),
                 onTap: () {
-                  town = City[index];
+                  town = city[index];
                   setState(() {});
                 },
               ),

@@ -6,8 +6,6 @@ MainCardModel({this.results});
 
 }
 
-
-
 class CardModel{
    CardModel({
     this.id,
