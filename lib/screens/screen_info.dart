@@ -26,15 +26,19 @@ class _ScreenInfoState extends State<ScreenInfo> {
             ? const Center(child: CircularProgressIndicator())
             : data.hasData
         ?data.data?.results?.isNotEmpty == true
-        ? ListView.builder(
+        ? ListView.separated(
           shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
-              return HookahCard(
+              return
+                HookahCard(
                   cardModel: data.data?.results?[index],
                 key: ValueKey<int>(data.data?.results?[index].id ?? -1),
               );
             },
+          separatorBuilder: (BuildContext context, int index) => const SizedBox(
+            height: 20
+          ),
           itemCount: data.data?.results?.length ?? 0,
         )
             : const Center(child: CircularProgressIndicator())

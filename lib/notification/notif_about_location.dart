@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_hookah_app/mini-moments/button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -56,6 +57,7 @@ showDialogIfFirstLoaded(BuildContext context) async {
   });
 
   if (isFirstLoaded == null && currentAddress != null) {
+    // ignore: use_build_context_synchronously
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -183,28 +185,13 @@ class _ShowModalState extends State<ShowModal> {
                                       child: Row(
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                            OutlinedButton.icon(
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: const Color(0xff2B2B2B),
-                                                side: BorderSide.none,
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              label: const Text("Назад",
-                                                  style: TextStyle(
-                                                      color: Color(0xFFFFC107),
-                                                      fontSize: 18,
-                                                      fontWeight: FontWeight.w400)),
-                                              icon:
-                                                  const Icon(Icons.arrow_back_ios_new_sharp, color: Color(0xFFFFC107)),
-                                          ),
-                                          const Text("Страна",
+                                        children: const [
+                                          ButtonBack(),
+                                           Text("Страна",
                                               style: TextStyle(
                                                   color: Color(0xFFF6F7FB), fontSize: 18, fontWeight: FontWeight.w600),
                                               textAlign: TextAlign.center),
-                                          const SizedBox(
+                                           SizedBox(
                                             width: 90,
                                             height: 30,
                                           ),
