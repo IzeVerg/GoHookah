@@ -20,6 +20,8 @@ extension CardModelFromDTOToDomain on CardModelDTO{
       rate: rate,
       phone: phone,
       description: description,
+      lat: lat,
+      lon: lon,
     );
   }
 }

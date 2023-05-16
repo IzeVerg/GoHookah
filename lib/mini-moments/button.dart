@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'dart:async';
+
 
 class CustomButton extends StatelessWidget {
   final String text;
   final IconData icon;
+  final Function() onPress;
 
   const CustomButton({
     super.key,
     required this.text,
     required this.icon,
+    required this.onPress,
   });
 
   @override
@@ -26,7 +29,7 @@ class CustomButton extends StatelessWidget {
           ),
         ),
         icon: Icon(icon, color: Colors.white),
-        onPressed: () {},
+        onPressed: onPress,
         label: Text(
           text,
           style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w300),
@@ -39,6 +42,10 @@ class CustomButton extends StatelessWidget {
 class CardQuery {
   static const String baseUrl = "https://gohookah.ilavista.tech/api/places";
 //здесь создавать статические константы для фильтров через слэш
+}
+
+class ShopQuery {
+  static const String basesUrl = "https://gohookah.ilavista.tech/api/places/shops";
 }
 
 class Pictures {
@@ -120,6 +127,69 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   width: MediaQuery.of(context).size.width * 0.145,
                 ),
                 const Text('Кальянная',
+                    style:
+                    TextStyle(color: Color(0xFFF6F7FB), fontSize: 17, fontWeight: FontWeight.w500)),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.203,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  @override
+  Size get preferredSize => Size.fromHeight(height);
+}
+
+
+
+
+class DelayedAction {
+  factory DelayedAction() => _instance;
+
+  DelayedAction._();
+
+  static final DelayedAction _instance = DelayedAction._();
+
+  static Timer? _timer;
+
+  static void run(
+      VoidCallback action, {
+        Duration delay = const Duration(milliseconds: 200),
+      }) {
+    _timer?.cancel();
+    _timer = Timer(delay, action);
+  }
+}
+
+
+class MySecondAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final double height;
+  const MySecondAppBar({Key? key, required this.height,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.110,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.035,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const ButtonBack(),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.145,
+                ),
+                const Text('Магазин',
                     style:
                     TextStyle(color: Color(0xFFF6F7FB), fontSize: 17, fontWeight: FontWeight.w500)),
                 SizedBox(

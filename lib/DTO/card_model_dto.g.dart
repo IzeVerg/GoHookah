@@ -14,6 +14,8 @@ CardModelDTO _$CardModelDTOFromJson(Map<String, dynamic> json) => CardModelDTO(
       image: json['img'] as String?,
       phone: json['phone'] as String?,
       description: json['description'] as String?,
+      lat: json['lat'] as String,
+      lon: json['lon'] as String,
     );
 
 Map<String, dynamic> _$CardModelDTOToJson(CardModelDTO instance) =>
@@ -25,4 +27,6 @@ Map<String, dynamic> _$CardModelDTOToJson(CardModelDTO instance) =>
       'phone': instance.phone,
       'description': instance.description,
       'rate': instance.rate,
+      'lat': instance.lat,
+      'lon': instance.lon,
     };

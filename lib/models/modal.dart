@@ -1,13 +1,11 @@
 class MainCardModel {
+  final List<CardModel>? results;
 
-final List<CardModel>? results;
-
-MainCardModel({this.results});
-
+  MainCardModel({this.results});
 }
 
-class CardModel{
-   CardModel({
+class CardModel {
+  CardModel({
     this.id,
     this.title,
     this.image,
@@ -15,7 +13,10 @@ class CardModel{
     this.phone,
     this.description,
     this.rate,
-});
+    required this.lat,
+    required this.lon,
+  });
+
   final int? id;
   final String? title;
   final String? address;
@@ -23,4 +24,6 @@ class CardModel{
   final String? description;
   final String? image;
   final double? rate;
+  final String lat;
+  final String lon;
 }

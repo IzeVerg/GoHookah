@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:go_hookah_app/mini-moments/button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/modal.dart';
@@ -12,7 +11,6 @@ import '../models/modal.dart';
 
 class HookahCard extends StatelessWidget {
   final CardModel? cardModel;
-
    HookahCard({this.cardModel, Key? key}) : super(key: key);
 
   @override
@@ -28,6 +26,27 @@ class HookahCard extends StatelessWidget {
                 appBar: const MyAppBar(
                   height: 150,
                 ),
+                 bottomNavigationBar: Padding(
+                   padding: const EdgeInsets.fromLTRB(16, 0, 15, 0),
+                   child:
+                   GestureDetector(
+                   onTap: () {},
+                    child: TextButton.icon(
+                      style: TextButton.styleFrom(
+                        backgroundColor: const Color(0xFFFFC107),
+                        shape:RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          side: BorderSide.none,
+                        ),
+                      ),
+                      onPressed: () {},
+                      icon: const FaIcon(FontAwesomeIcons.yandex, color: Color(0xFF2B2B2B), size: 17),
+                      label: const Text('Заказать такси', style:  TextStyle(color: Color(0xFF2B2B2B), fontSize: 18,
+                          fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                 ),
+                 ),
                 backgroundColor: const Color(0xFF2B2B2B),
                 body: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -78,7 +97,7 @@ class HookahCard extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 0, 15, 0),
+                              padding: const EdgeInsets.fromLTRB(9, 0, 9, 0),
                               child: TextButton(
                                 onPressed: () =>
                                 Clipboard.setData(ClipboardData(text: "${cardModel?.title}")).then((value){
@@ -89,7 +108,7 @@ class HookahCard extends StatelessWidget {
                                             Radius.circular(20))),
                                     backgroundColor: Colors.black.withOpacity(0.75),
                                     behavior: SnackBarBehavior.floating,
-                                    margin: const EdgeInsets.fromLTRB(16, 0, 15, 105),
+                                    margin: const EdgeInsets.fromLTRB(16, 0, 15, 4),
                                     dismissDirection: DismissDirection.none,
                                     duration: const Duration(seconds: 2),
                                     content:
@@ -100,10 +119,12 @@ class HookahCard extends StatelessWidget {
                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                 }
                                 ),
-                                child: Text ('${cardModel?.title}',
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text ('${cardModel?.title}',
                                   style: const TextStyle(
                                       color: Color(0xFFFFC107), fontSize: 34, fontWeight: FontWeight.w600)),),
-                            ),
+                            ),),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16, 12, 15, 24),
                               child: Text('${cardModel?.description}',
@@ -186,7 +207,7 @@ class HookahCard extends StatelessWidget {
                                                               Radius.circular(20))),
                                                       backgroundColor: Colors.black.withOpacity(0.75),
                                                       behavior: SnackBarBehavior.floating,
-                                                      margin: const EdgeInsets.fromLTRB(16, 0, 15, 105),
+                                                      margin: const EdgeInsets.fromLTRB(16, 0, 15, 4),
                                                       dismissDirection: DismissDirection.none,
                                                       duration: const Duration(seconds: 2),
                                                       content:
@@ -222,7 +243,7 @@ class HookahCard extends StatelessWidget {
                                                               Radius.circular(20))),
                                                       backgroundColor: Colors.black.withOpacity(0.75),
                                                       behavior: SnackBarBehavior.floating,
-                                                      margin: const EdgeInsets.fromLTRB(16, 0, 15, 105),
+                                                      margin: const EdgeInsets.fromLTRB(16, 0, 15, 4),
                                                       dismissDirection: DismissDirection.none,
                                                       duration: const Duration(seconds: 2),
                                                       content:
@@ -386,8 +407,12 @@ class HookahCard extends StatelessWidget {
                     ),
                   ],
                 ),
+          Expanded(
+            child: Container(
+              alignment: Alignment.bottomLeft,
+              child:
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 19, 15, 0),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 15, 16),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -411,6 +436,8 @@ class HookahCard extends StatelessWidget {
                     ],
                   ),
                 ),
+            ),
+          ),
               ],
             ),
           ),

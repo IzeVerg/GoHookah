@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:go_hookah_app/DTO/home_dto.dart';
 import 'package:go_hookah_app/mappers/HomeFromDTOToDomain.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 

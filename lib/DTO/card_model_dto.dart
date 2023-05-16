@@ -12,6 +12,8 @@ class CardModelDTO {
     this.image,
     this.phone,
     this.description,
+    required this.lat,
+    required this.lon,
 });
 
    factory CardModelDTO.fromJson(Map<String, dynamic> json) =>
@@ -37,4 +39,10 @@ class CardModelDTO {
 
    @JsonKey(name: "rate")
    final double? rate;
+
+   @JsonKey(name: "lat")
+   final String lat;
+
+   @JsonKey(name: "lon")
+   final String lon;
 }
