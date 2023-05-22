@@ -187,11 +187,11 @@ class _ShowModalState extends State<ShowModal> {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: const [
                                           ButtonBack(),
-                                           Text("Страна",
+                                          Text("Страна",
                                               style: TextStyle(
                                                   color: Color(0xFFF6F7FB), fontSize: 18, fontWeight: FontWeight.w600),
                                               textAlign: TextAlign.center),
-                                           SizedBox(
+                                          SizedBox(
                                             width: 90,
                                             height: 30,
                                           ),

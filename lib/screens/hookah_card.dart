@@ -8,10 +8,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../models/modal.dart';
 
-
 class HookahCard extends StatelessWidget {
   final CardModel? cardModel;
-   HookahCard({this.cardModel, Key? key}) : super(key: key);
+
+  HookahCard({this.cardModel, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,27 +26,27 @@ class HookahCard extends StatelessWidget {
                 appBar: const MyAppBar(
                   height: 150,
                 ),
-                 bottomNavigationBar: Padding(
-                   padding: const EdgeInsets.fromLTRB(16, 0, 15, 0),
-                   child:
-                   GestureDetector(
-                   onTap: () {},
+                bottomNavigationBar: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 15, 0),
+                  child: GestureDetector(
+                    onTap: () {},
                     child: TextButton.icon(
                       style: TextButton.styleFrom(
                         backgroundColor: const Color(0xFFFFC107),
-                        shape:RoundedRectangleBorder(
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           side: BorderSide.none,
                         ),
                       ),
                       onPressed: () {},
                       icon: const FaIcon(FontAwesomeIcons.yandex, color: Color(0xFF2B2B2B), size: 17),
-                      label: const Text('Заказать такси', style:  TextStyle(color: Color(0xFF2B2B2B), fontSize: 18,
-                          fontWeight: FontWeight.w400),
+                      label: const Text(
+                        'Заказать такси',
+                        style: TextStyle(color: Color(0xFF2B2B2B), fontSize: 18, fontWeight: FontWeight.w400),
                       ),
                     ),
-                 ),
-                 ),
+                  ),
+                ),
                 backgroundColor: const Color(0xFF2B2B2B),
                 body: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -59,24 +59,23 @@ class HookahCard extends StatelessWidget {
                           shrinkWrap: true,
                           physics: const ClampingScrollPhysics(),
                           children: [
-                        SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.255,
-                        width: MediaQuery.of(context).size.width * 0.9,
-                         child:
-                            CachedNetworkImage(
-                              imageBuilder: (context, imageProvider) => Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.255,
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              child: CachedNetworkImage(
+                                imageBuilder: (context, imageProvider) => Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
+                                imageUrl: 'https://gohookah.ilavista.tech/storage/place_img_sm/${cardModel?.image}',
+                                placeholder: (context, url) => const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) => const Icon(Icons.error),
                               ),
-                              imageUrl: 'https://gohookah.ilavista.tech/storage/place_img_sm/${cardModel?.image}',
-                              placeholder: (context, url) => const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => const Icon(Icons.error),
                             ),
-                        ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16, 20, 15, 8),
                               child: Row(
@@ -100,31 +99,30 @@ class HookahCard extends StatelessWidget {
                               padding: const EdgeInsets.fromLTRB(9, 0, 9, 0),
                               child: TextButton(
                                 onPressed: () =>
-                                Clipboard.setData(ClipboardData(text: "${cardModel?.title}")).then((value){
+                                    Clipboard.setData(ClipboardData(text: "${cardModel?.title}")).then((value) {
                                   final snackBar = SnackBar(
                                     elevation: 6.0,
                                     shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20))),
+                                        borderRadius: BorderRadius.all(Radius.circular(20))),
                                     backgroundColor: Colors.black.withOpacity(0.75),
                                     behavior: SnackBarBehavior.floating,
                                     margin: const EdgeInsets.fromLTRB(16, 0, 15, 4),
                                     dismissDirection: DismissDirection.none,
                                     duration: const Duration(seconds: 2),
-                                    content:
-                                     const Text('Название заведения скопировано.', style: TextStyle(color: Color
-                                       (0xFFF5F5F5), fontSize: 15, fontWeight: FontWeight.w400)),
-
+                                    content: const Text('Название заведения скопировано.',
+                                        style: TextStyle(
+                                            color: Color(0xFFF5F5F5), fontSize: 15, fontWeight: FontWeight.w400)),
                                   );
                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                }
-                                ),
+                                }),
                                 child: Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Text ('${cardModel?.title}',
-                                  style: const TextStyle(
-                                      color: Color(0xFFFFC107), fontSize: 34, fontWeight: FontWeight.w600)),),
-                            ),),
+                                  child: Text('${cardModel?.title}',
+                                      style: const TextStyle(
+                                          color: Color(0xFFFFC107), fontSize: 34, fontWeight: FontWeight.w600)),
+                                ),
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16, 12, 15, 24),
                               child: Text('${cardModel?.description}',
@@ -133,174 +131,193 @@ class HookahCard extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                              child:
-                             Container(
-                              height: 2,
-                              color: const Color(0xFF333333),
-                            ),
+                              child: Container(
+                                height: 2,
+                                color: const Color(0xFF333333),
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16, 25, 16, 25),
-                              child:
-                            SizedBox(
-                              height: 100,
-                              child:
-                            ListView.separated(
-                              physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemCount: 7,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  height: 100,
-                                  width: 100,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF333333),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                );
-                              }, separatorBuilder: (BuildContext context, int index) =>
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            ),
-                            ),
+                              child: SizedBox(
+                                height: 100,
+                                child: ListView.separated(
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount: 7,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Container(
+                                      height: 100,
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF333333),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (BuildContext context, int index) => const SizedBox(
+                                    width: 8,
+                                  ),
+                                ),
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                              child:
-                              Container(
+                              child: Container(
                                 height: 2,
                                 color: const Color(0xFF333333),
                               ),
                             ),
-                             Padding(
+                            Padding(
                               padding: const EdgeInsets.fromLTRB(16, 25, 16, 0),
-                              child:
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children:  [
-                                      const Text("Контактная информация", style: TextStyle(
-                                  color: Color(0xFFF6F7FB),
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                )),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text("Контактная информация",
+                                      style: TextStyle(
+                                        color: Color(0xFFF6F7FB),
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600,
+                                      )),
+                                  const SizedBox(
+                                    height: 17,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.location_on_outlined, color: Color(0xFF767676)),
                                       const SizedBox(
-                                        height: 17,
+                                        width: 5,
                                       ),
-                                      Row(
-                                        children: [
-                                          const Icon(Icons.location_on_outlined, color: Color(0xFF767676)),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          const Text('Адрес:', style: TextStyle(color: Color(0xFF767676),
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w400),),
-                                          TextButton(
-                                              onPressed: () =>
-                                                  Clipboard.setData(ClipboardData(text: "${cardModel?.address}")).then((value){
-                                                    final snackBar = SnackBar(
-                                                      elevation: 6.0,
-                                                      shape: const RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.all(
-                                                              Radius.circular(20))),
-                                                      backgroundColor: Colors.black.withOpacity(0.75),
-                                                      behavior: SnackBarBehavior.floating,
-                                                      margin: const EdgeInsets.fromLTRB(16, 0, 15, 4),
-                                                      dismissDirection: DismissDirection.none,
-                                                      duration: const Duration(seconds: 2),
-                                                      content:
-                                                      const Text('Адрес скопирован.', style: TextStyle
-                                                        (color: Color
-                                                        (0xFFF5F5F5), fontSize: 15, fontWeight: FontWeight.w400)),
-
-                                                    );
-                                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                                  }
-                                                  ),
-                                              child: Text('${cardModel?.address}', style:
-                                          const TextStyle(color: Color(0xFFF6F7FB), fontSize: 17, fontWeight: FontWeight
-                                              .w400))),
-                                        ],
+                                      const Text(
+                                        'Адрес:',
+                                        style: TextStyle(
+                                            color: Color(0xFF767676), fontSize: 17, fontWeight: FontWeight.w400),
                                       ),
-                                      Row(
-                                        children: [
-                                          const Icon(Icons.phone_rounded, color: Color(0xFF767676)),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          const Text('Телефон:', style: TextStyle(color: Color(0xFF767676),
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w400),),
-                                          TextButton(
-                                              onPressed: () =>
-                                                  Clipboard.setData(ClipboardData(text: "${cardModel?.phone}")).then((value){
-                                                    final snackBar = SnackBar(
-                                                      elevation: 6.0,
-                                                      shape: const RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.all(
-                                                              Radius.circular(20))),
-                                                      backgroundColor: Colors.black.withOpacity(0.75),
-                                                      behavior: SnackBarBehavior.floating,
-                                                      margin: const EdgeInsets.fromLTRB(16, 0, 15, 4),
-                                                      dismissDirection: DismissDirection.none,
-                                                      duration: const Duration(seconds: 2),
-                                                      content:
-                                                      const Text('Телефон скопирован.', style: TextStyle(color: Color
-                                                        (0xFFF5F5F5), fontSize: 15, fontWeight: FontWeight.w400)),
-
-                                                    );
-                                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                                  }
-                                                  ),
-                                              child: Text('${cardModel?.phone}', style:
-                                          const TextStyle(color: Color(0xFFFFC107), fontSize: 17, fontWeight: FontWeight
-                                              .w400))),
-                                        ],
+                                      TextButton(
+                                          onPressed: () =>
+                                              Clipboard.setData(ClipboardData(text: "${cardModel?.address}"))
+                                                  .then((value) {
+                                                final snackBar = SnackBar(
+                                                  elevation: 6.0,
+                                                  shape: const RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                                                  backgroundColor: Colors.black.withOpacity(0.75),
+                                                  behavior: SnackBarBehavior.floating,
+                                                  margin: const EdgeInsets.fromLTRB(16, 0, 15, 4),
+                                                  dismissDirection: DismissDirection.none,
+                                                  duration: const Duration(seconds: 2),
+                                                  content: const Text('Адрес скопирован.',
+                                                      style: TextStyle(
+                                                          color: Color(0xFFF5F5F5),
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight.w400)),
+                                                );
+                                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                              }),
+                                          child: Text('${cardModel?.address}',
+                                              style: const TextStyle(
+                                                  color: Color(0xFFF6F7FB),
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w400))),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.phone_rounded, color: Color(0xFF767676)),
+                                      const SizedBox(
+                                        width: 5,
                                       ),
-                                      Row(
-                                        children: [
-                                          const FaIcon(FontAwesomeIcons.squareShareNodes, color: Color(0xFF767676)),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          const Text('Соц. сети:', style: TextStyle(color: Color(0xFF767676),
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w400),),
-                                          IconButton(onPressed: () {}, icon: const FaIcon(FontAwesomeIcons.instagram, color: Color(0xFFF6F7FB))),
-                                          IconButton(onPressed: () {}, icon: const FaIcon(FontAwesomeIcons.facebook, color: Color(0xFFF6F7FB))),
-                                          IconButton(onPressed: () {}, icon: const FaIcon(FontAwesomeIcons.telegram, color:  Color(0xFFF6F7FB))),
-                                          IconButton(onPressed: () {}, icon: const FaIcon(FontAwesomeIcons.vk, color: Color(0xFFF6F7FB))),
-                                        ],
+                                      const Text(
+                                        'Телефон:',
+                                        style: TextStyle(
+                                            color: Color(0xFF767676), fontSize: 17, fontWeight: FontWeight.w400),
                                       ),
-                                      Row(
-                                        children: [
-                                          const FaIcon(FontAwesomeIcons.internetExplorer, color: Color(0xFF767676)),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          const Text('Веб-сайт:', style: TextStyle(color: Color(0xFF767676),
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w400),),
-                                          TextButton(onPressed: _launchUrl, child: const Text("https://gohookah.ilavista.tech/", style:
-                                          TextStyle(color: Color(0xFFF6F7FB), fontSize: 17, fontWeight: FontWeight
-                                              .w400))),
-                                        ],
+                                      TextButton(
+                                          onPressed: () => Clipboard.setData(ClipboardData(text: "${cardModel?.phone}"))
+                                                  .then((value) {
+                                                final snackBar = SnackBar(
+                                                  elevation: 6.0,
+                                                  shape: const RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                                                  backgroundColor: Colors.black.withOpacity(0.75),
+                                                  behavior: SnackBarBehavior.floating,
+                                                  margin: const EdgeInsets.fromLTRB(16, 0, 15, 4),
+                                                  dismissDirection: DismissDirection.none,
+                                                  duration: const Duration(seconds: 2),
+                                                  content: const Text('Телефон скопирован.',
+                                                      style: TextStyle(
+                                                          color: Color(0xFFF5F5F5),
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight.w400)),
+                                                );
+                                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                              }),
+                                          child: Text('${cardModel?.phone}',
+                                              style: const TextStyle(
+                                                  color: Color(0xFFFFC107),
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w400))),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      const FaIcon(FontAwesomeIcons.squareShareNodes, color: Color(0xFF767676)),
+                                      const SizedBox(
+                                        width: 5,
                                       ),
-                                  ],),
+                                      const Text(
+                                        'Соц. сети:',
+                                        style: TextStyle(
+                                            color: Color(0xFF767676), fontSize: 17, fontWeight: FontWeight.w400),
+                                      ),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: const FaIcon(FontAwesomeIcons.instagram, color: Color(0xFFF6F7FB))),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: const FaIcon(FontAwesomeIcons.facebook, color: Color(0xFFF6F7FB))),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: const FaIcon(FontAwesomeIcons.telegram, color: Color(0xFFF6F7FB))),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: const FaIcon(FontAwesomeIcons.vk, color: Color(0xFFF6F7FB))),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      const FaIcon(FontAwesomeIcons.internetExplorer, color: Color(0xFF767676)),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      const Text(
+                                        'Веб-сайт:',
+                                        style: TextStyle(
+                                            color: Color(0xFF767676), fontSize: 17, fontWeight: FontWeight.w400),
+                                      ),
+                                      TextButton(
+                                          onPressed: _launchUrl,
+                                          child: const Text("https://gohookah.ilavista.tech/",
+                                              style: TextStyle(
+                                                  color: Color(0xFFF6F7FB),
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w400))),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                              Padding(padding: const EdgeInsets.fromLTRB(16, 25, 16, 0),
-                                  child: 
-                              Container(
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 25, 16, 0),
+                              child: Container(
                                 height: 2,
                                 color: const Color(0xFF333333),
                               ),
-                              ),
+                            ),
                             const Padding(
                               padding: EdgeInsets.fromLTRB(16, 25, 16, 20),
-                              child:
-                                  Text("Отзывы", style: TextStyle(
+                              child: Text("Отзывы",
+                                  style: TextStyle(
                                     color: Color(0xFFF6F7FB),
                                     fontSize: 22,
                                     fontWeight: FontWeight.w700,
@@ -308,11 +325,9 @@ class HookahCard extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16, 25, 16, 25),
-                              child:
-                              SizedBox(
+                              child: SizedBox(
                                 height: 237,
-                                child:
-                                ListView.separated(
+                                child: ListView.separated(
                                   physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
@@ -326,10 +341,10 @@ class HookahCard extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                     );
-                                  }, separatorBuilder: (BuildContext context, int index) =>
-                                const SizedBox(
-                                  width: 16,
-                                ),
+                                  },
+                                  separatorBuilder: (BuildContext context, int index) => const SizedBox(
+                                    width: 16,
+                                  ),
                                 ),
                               ),
                             ),
@@ -407,37 +422,36 @@ class HookahCard extends StatelessWidget {
                     ),
                   ],
                 ),
-          Expanded(
-            child: Container(
-              alignment: Alignment.bottomLeft,
-              child:
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 15, 16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const TxtButton(txt: "Открыто до 6:00"),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 15, 16),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.location_on_outlined,
-                                color: Color(0xFFFFC107),
-                                size: 30,
-                              )),
-                          IconButton(
-                              onPressed: () => launch("tel://${cardModel?.phone}"),
-                              icon: const Icon(Icons.phone_outlined, color: Color(0xFFFFC107), size: 30)),
+                          const TxtButton(txt: "Открыто до 6:00"),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.location_on_outlined,
+                                    color: Color(0xFFFFC107),
+                                    size: 30,
+                                  )),
+                              IconButton(
+                                  onPressed: () => launch("tel://${cardModel?.phone}"),
+                                  icon: const Icon(Icons.phone_outlined, color: Color(0xFFFFC107), size: 30)),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-            ),
-          ),
               ],
             ),
           ),
@@ -445,6 +459,7 @@ class HookahCard extends StatelessWidget {
       ),
     );
   }
+
   final Uri _url = Uri.parse('https://gohookah.ilavista.tech');
 
   Future<void> _launchUrl() async {
@@ -453,6 +468,3 @@ class HookahCard extends StatelessWidget {
     }
   }
 }
-
-
-

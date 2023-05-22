@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_hookah_app/mini-moments/button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_hookah_app/repository/CardRepository.dart';
+import 'package:go_hookah_app/screens/filtres.dart';
 import 'package:go_hookah_app/screens/screen_info.dart';
 import 'package:go_hookah_app/screens/shop_screen.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../models/modal.dart';
 import '../notification/notif_about_location.dart';
 import 'map_screen.dart';
@@ -52,7 +54,10 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    dataLoadingState ??= CardRepository.loadData(context);
+    MainCardModel? data;
+    CardRepository.loadData(context).then((value) {
+      data = value;
+    });
     Future.delayed(Duration.zero, () => showDialogIfFirstLoaded(context));
     return Scaffold(
       backgroundColor: const Color(0xff2B2B2B),
@@ -198,13 +203,33 @@ class _MainScreenState extends State<MainScreen> {
                               text: "Карта",
                               icon: CupertinoIcons.compass,
                               onPress: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  MapScreen()));
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => MapScreen(
+                                          dataLoadingState: data,
+                                        )));
                               },
                             ),
                             CustomButton(
                               text: "Фильтры",
                               icon: Icons.filter_list,
-                              onPress: () {},
+                              onPress: () {
+                                showMaterialModalBottomSheet(
+                                  barrierColor: const Color(0xff333333),
+                                  closeProgressThreshold: 0.6,
+                                  useRootNavigator: true,
+                                  bounce: true,
+                                  isDismissible: true,
+                                  shape:
+                                  const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(15))),
+                                  backgroundColor: const Color(0xff2B2B2B),
+                                  context: context,
+                                  builder: (context) => StatefulBuilder(
+                                    builder: (BuildContext context, StateSetter setState) {
+                                      return const FiltresAndLocation();
+                                    },
+                                  ),
+                                );
+                              },
                             ),
                           ],
                         ),
